@@ -1,10 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from 'react'
+
+import { products } from '../../products'
+
+import { useParams } from 'react-router-dom'
+import ItemList from "../ItemList/ItemList";
 import "./ItemListContainer.css";
 
-const ItemListContainer = ({ itemName }) => {
+const ItemListContainer = () => {
+  const { categoryName } = useParams();
+
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const productsFiltered = products.filter(
+      (product) => product.category === categoryName
+    );
+
+    const task = new Promise((resolve, reject) => {
+      resolve(categoryName ? productsFiltered : products);
+
+      // reject(errorMessage);
+    });
+
+    task
+      .then((res) => {
+        setItems(res);
+      })
+      .catch((error) => {
+        console.log("aca se rechazo: ", error);
+      });
+  }, [categoryName]);
+
   return (
-    <div className="item-list-container">
-      <h2 className="item-list-title">{itemName}</h2>
+    <div>
+      <ItemList items={items} />
     </div>
   );
 };

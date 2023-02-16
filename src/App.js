@@ -1,19 +1,36 @@
-import React from 'react';
-import Navbar from './components/Navbar/Navbar';
-import './App.css';
-import ItemListContainer from './components/ItemListContainer/ItemListContainer';
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
-const App = () => {
+import Navbar from "./components/Navbar/Navbar";
+import ItemDetailContainer from "./components/ItemDetailContainer/ItemDetailContainer";
+import ItemListContainer from "./components/ItemListContainer/ItemListContainer";
+import Cart from "./components/Cart/Cart";
+
+
+function App() {
+
   return (
-    <div>
-      <Navbar cartItemsCount={4}/>
-      <ItemListContainer itemName={"Producto 1"} />
-      <ItemListContainer itemName={"Producto 2"} />
-      <ItemListContainer itemName={"Producto 3"} />
-      <ItemListContainer itemName={"Producto 4"} />
 
-    </div>
+    <BrowserRouter>
+
+      <Navbar />
+
+      <Routes>
+
+        <Route path="/" element={ <ItemListContainer  /> } />
+
+        <Route path="/category/:categoryName" element={ <ItemListContainer  /> } />
+
+        <Route path="/itemDetail/:id" element={ <ItemDetailContainer /> } />
+
+        <Route path="/cart" element={ <Cart /> } />
+
+        <Route path="*" element={ <h1>404 Not Found</h1> } />
+
+      </Routes>
+
+    </BrowserRouter>
+
   );
-};
+}
 
 export default App;
